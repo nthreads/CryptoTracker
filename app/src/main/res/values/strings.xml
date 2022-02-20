@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Crypto Tracker</string>
+    <string name="lbl_exchange_rate">Exchange Rate</string>
+    <string name="lbl_btc">BTC</string>
+    <string name="lbl_usd">USD</string>
+
+    <string name="toast_err_unauthorized">Your username and/or password do not match</string>
+    <string name="toast_err_forbidden_req">Forbidden request error</string>
+    <string name="toast_err_internal_server">Internal server error, please retry later.</string>
+    <string name="toast_err_session">Your session has been expired. Please login again.</string>
+    <string name="toast_err_went_wrong">Something went wrong. Please try again.</string>
+
+    <string name="toast_err_time_out">Connection Timeout, Please Try Again</string>
+    <string name="toast_err_network">Network Error, Please Check Your Network Connection</string>
+    <string name="toast_err_connection">Unable to connect to API endpoint.</string>
+    <string name="lbl_alert">Alert</string>
+    <string name="lbl_btc_usd">BTC/USD</string>
+    <string name="lbl_alert_price">Alert Price</string>
+
+    <string name="lbl_acceptable_limits">Acceptable Rate Limits</string>
+
+    <string name="lbl_min_limit">Min.\n%.2f</string>
+    <string name="lbl_max_limit">Max.\n%.2f</string>
+    <string name="lbl_create_alert">Create Alert</string>
+
+</resources>

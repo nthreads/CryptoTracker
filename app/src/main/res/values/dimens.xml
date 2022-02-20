@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_padding">16dp</dimen>
+
+    <dimen name="offset_5">5dp</dimen>
+    <dimen name="offset_10">10dp</dimen>
+    <dimen name="offset_20">20dp</dimen>
+
+
+    <dimen name="card_radius">10dp</dimen>
+    <dimen name="card_elevation">5dp</dimen>
+    <dimen name="card_padding">10dp</dimen>
+    <dimen name="card_padding_2x">20dp</dimen>
+
+</resources>

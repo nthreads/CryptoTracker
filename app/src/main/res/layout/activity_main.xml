@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.text.DecimalFormat"/>
+
+        <variable
+            name="viewmodel"
+            type="com.nthreads.cryptotracker.domain.binders.MainViewModel" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeToRefresh"
+        android:layout_width="match_parent"
+        android:background="@color/background"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/activity_padding"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            tools:context=".presentation.activities.MainActivity">
+
+            <TextView
+                style="@style/HeadingLarge"
+                android:layout_marginTop="@dimen/offset_10"
+                android:text="@string/lbl_exchange_rate" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/offset_20"
+                android:gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_btc" />
+
+                <!--android:onClick="@{() -> viewmodel.minLimitOnClick()}"-->
+                <!--android:onClick="@{() -> viewmodel.maxLimitOnClick()}"-->
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/offset_20"
+                    android:background="@drawable/shape_circle"
+                    android:padding="@dimen/offset_10"
+                    android:src="@drawable/ic_exchange" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_usd" />
+
+
+            </LinearLayout>
+
+
+            <androidx.cardview.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <TextView
+                        android:id="@+id/tvSymbol"
+                        style="@style/Heading"
+                        android:text="@{viewmodel.currency.symbolHtml}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/tvBtcRate"
+                        android:layout_marginEnd="@dimen/offset_5"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="$" />
+
+                    <TextView
+                        android:id="@+id/tvBtcRate"
+                        style="@style/HeadingLarge"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="-10dp"
+                        android:text='@{viewmodel.currency.rateFormatted}'
+                        android:textSize="50sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvCode"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="119.32" />
+
+                    <TextView
+                        android:id="@+id/tvCode"
+                        style="@style/SubHeading"
+                        android:text='@{viewmodel.currency.code}'
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="$ USD" />
+
+                    <TextView
+                        android:id="@+id/tvDescription"
+                        style="@style/SubHeading"
+                        android:text='@{viewmodel.currency.description}'
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="US Dollar" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <!--android:text='@{viewmodel.currency.symbol + " " + String.valueOf(viewmodel.currency.rateFloat)}'-->
+
+            <TextView
+                style="@style/Heading"
+                android:layout_marginTop="@dimen/offset_20"
+                android:text="@string/lbl_acceptable_limits" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <androidx.cardview.widget.CardView
+                    style="@style/CardViewStyle.Outlined"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/layoutMinRateLimit"
+                    android:layout_margin="@dimen/offset_10"
+                    android:layout_width="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvMinARLimit"
+                        style="@style/SubHeadingBold"
+                        android:layout_marginHorizontal="@dimen/offset_20"
+                        android:text='@{@string/lbl_min_limit(viewmodel.minLimit)}'
+                        tools:text="Min\n120.32" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    style="@style/CardViewStyle.Outlined"
+                    android:id="@+id/layoutMaxRateLimit"
+                    android:layout_margin="@dimen/offset_10"
+                    android:layout_width="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/tvMaxARLimit"
+                        style="@style/SubHeadingBold"
+                        android:layout_marginHorizontal="@dimen/offset_20"
+                        android:text="@{@string/lbl_max_limit(viewmodel.maxLimit)}"
+                        tools:text="Max\n127.32" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.nthreads.cryptotracker.domain.binders.AlertViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_padding">
+
+        <TextView
+            style="@style/Heading"
+            android:layout_marginTop="@dimen/offset_20"
+            android:text="@string/lbl_btc_usd" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/offset_20"
+            android:background="@drawable/shape_circle"
+            android:padding="@dimen/offset_20"
+            android:src="@drawable/ic_alert" />
+
+        <TextView
+            style="@style/SubHeading"
+            android:layout_marginVertical="@dimen/offset_20"
+            android:text="@string/lbl_alert_price" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/offset_20">
+
+            <TextView
+                android:id="@+id/tvMinARLimit"
+                style="@style/SubHeading"
+                android:layout_alignParentStart="true"
+                android:layout_marginHorizontal="@dimen/offset_20"
+                android:text='@{@string/lbl_min_limit(viewmodel.minLimit)}'
+                tools:text="Min\n120.32" />
+
+            <TextView
+                android:id="@+id/tvMaxARLimit"
+                style="@style/SubHeading"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="@dimen/offset_20"
+                android:text='@{@string/lbl_min_limit(viewmodel.maxLimit)}'
+                tools:text="Max\n120.32" />
+        </RelativeLayout>
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/rangeSlider"
+            style="@style/SliderTooltip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="10.0"
+            android:valueFrom="0.0"
+            android:valueTo="100000.0"
+            app:values="@array/initial_slider_values" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreateAlert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/offset_20"
+            android:text="@string/lbl_create_alert" />
+
+    </LinearLayout>
+</layout>
