@@ -46,6 +46,8 @@ dependencies {
     // ViewModel and LiveData
     implementation deps.androidx.lifecycleExt
 
+    implementation deps.kotlin.ktx
+
 
     // Retrofit
     implementation deps.retrofit.retrofitLib

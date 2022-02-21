@@ -23,9 +23,11 @@
     <string name="lbl_min">Min.</string>
     <string name="lbl_max">Max.</string>
 
-    <string name="lbl_min_limit">Min.\n%s %s</string>
-    <string name="lbl_max_limit">Max.\n%s %s</string>
+    <string name="lbl_min_limit">Min.\n%s%s</string>
+    <string name="lbl_max_limit">Max.\n%s%s</string>
 
     <string name="lbl_create_alert">Create Alert</string>
+    <string name="msg_min_rate_threshold">Your minimum acceptable threshold %.2f reached, new value is %.2f</string>
+    <string name="msg_max_rate_threshold">Your maximum acceptable threshold %.2f reached, new value is %.2f</string>
 
 </resources>

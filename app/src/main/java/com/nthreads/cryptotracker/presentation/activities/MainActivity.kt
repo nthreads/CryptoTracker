@@ -8,8 +8,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.nthreads.cryptotracker.R
 import com.nthreads.cryptotracker.app.Consts
@@ -17,6 +15,7 @@ import com.nthreads.cryptotracker.databinding.ActivityMainBinding
 import com.nthreads.cryptotracker.domain.binders.MainViewModel
 import com.nthreads.cryptotracker.domain.models.CurrencyRate
 import com.nthreads.cryptotracker.domain.models.Resource.Status.*
+import com.nthreads.cryptotracker.domain.services.MyNotificationManager
 import com.nthreads.cryptotracker.presentation.viewmodels.CryptoExchangeViewModel
 import com.nthreads.cryptotracker.utils.PreferenceUtility
 
@@ -29,9 +28,9 @@ import com.nthreads.cryptotracker.utils.PreferenceUtility
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by lazy { ViewModelProvider(this).get(CryptoExchangeViewModel::class.java) }
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
-    private val mainViewMode : MainViewModel = MainViewModel()
+    private val mainViewMode: MainViewModel = MainViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,19 +57,30 @@ class MainActivity : AppCompatActivity() {
         binding.viewmodel = mainViewMode
     }
 
-    private val activityForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.let {
-                val min = it.getFloatExtra(Consts.KEY_MIN_LIMIT, 10000f)
-                val max = it.getFloatExtra(Consts.KEY_MAX_LIMIT, 40000f)
+    private val activityForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let {
+                    val min = it.getFloatExtra(Consts.KEY_MIN_LIMIT, 10000f)
+                    val max = it.getFloatExtra(Consts.KEY_MAX_LIMIT, 40000f)
 
-                updateObserverModel(min, max)
-                PreferenceUtility.setPreference(this, Consts.APP_PREFS, Consts.KEY_MIN_LIMIT, min)
-                PreferenceUtility.setPreference(this, Consts.APP_PREFS, Consts.KEY_MAX_LIMIT, max)
+                    updateObserverModel(min, max)
+                    PreferenceUtility.setPreference(
+                        this,
+                        Consts.APP_PREFS,
+                        Consts.KEY_MIN_LIMIT,
+                        min
+                    )
+                    PreferenceUtility.setPreference(
+                        this,
+                        Consts.APP_PREFS,
+                        Consts.KEY_MAX_LIMIT,
+                        max
+                    )
+                }
+
             }
-
         }
-    }
 
     private fun getSavedAlerts() {
         val min = PreferenceUtility.getFloatPreference(this, Consts.APP_PREFS, Consts.KEY_MIN_LIMIT)
@@ -84,6 +94,20 @@ class MainActivity : AppCompatActivity() {
         mainViewMode.maxLimit = max
 
         binding.viewmodel = mainViewMode
+
+        notifyRateIfNeeded(mainViewMode.currency.rateFloat)
+    }
+
+    private fun notifyRateIfNeeded(currRate: Float) {
+        val message: String = if (currRate <= mainViewMode.minLimit) {
+            getString(R.string.msg_min_rate_threshold, mainViewMode.minLimit, currRate)
+        } else if (currRate >= mainViewMode.maxLimit) {
+            getString(R.string.msg_max_rate_threshold, mainViewMode.maxLimit, currRate)
+        } else {
+            return
+        }
+
+        MyNotificationManager.sendNotification(message, this)
     }
 
     private fun setObserver() {
@@ -94,9 +118,10 @@ class MainActivity : AppCompatActivity() {
                 when (it.status) {
                     LOADING -> {}
                     SUCCESS -> {
-                        val usd = it.data?.bpi?.usd?: CurrencyRate()
+                        val usd = it.data?.bpi?.usd ?: CurrencyRate()
                         mainViewMode.currency = usd
                         binding.viewmodel = mainViewMode
+                        notifyRateIfNeeded(usd.rateFloat)
                         Log.d("TAG", "onCreate: ${it.data?.bpi?.usd}")
                     }
                     ERROR -> {}
