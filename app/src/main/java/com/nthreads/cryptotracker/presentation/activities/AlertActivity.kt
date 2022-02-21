@@ -12,13 +12,14 @@ import com.nthreads.cryptotracker.app.Consts
 import com.nthreads.cryptotracker.databinding.ActivityAlertBinding
 import com.nthreads.cryptotracker.domain.binders.AlertViewModel
 import com.nthreads.cryptotracker.domain.binders.MainViewModel
+import com.nthreads.cryptotracker.utils.PreferenceUtility
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class AlertActivity : AppCompatActivity() {
 
-    val alertViewModel = AlertViewModel()
+    private val alertViewModel = AlertViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding : ActivityAlertBinding = DataBindingUtil.setContentView(this, R.layout.activity_alert)
@@ -27,6 +28,15 @@ class AlertActivity : AppCompatActivity() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
+
+        val min = PreferenceUtility.getFloatPreference(this, Consts.APP_PREFS, Consts.KEY_MIN_LIMIT)
+        val max = PreferenceUtility.getFloatPreference(this, Consts.APP_PREFS, Consts.KEY_MAX_LIMIT)
+
+        alertViewModel.minLimit.value = min
+        alertViewModel.maxLimit.value = max
+
+        // initial values
+        binding.rangeSlider.setValues(min, max)
 
         binding.rangeSlider.setLabelFormatter{ value: Float ->
             val format = NumberFormat.getCurrencyInstance()
@@ -42,10 +52,10 @@ class AlertActivity : AppCompatActivity() {
 
         binding.btnCreateAlert.setOnClickListener {
             val intent = Intent()
-            intent.putExtra(Consts.KEY_MIN_LIMIT, binding.rangeSlider.values[0])
-            intent.putExtra(Consts.KEY_MAX_LIMIT, binding.rangeSlider.values[1])
-            finish()
+            intent.putExtra(Consts.KEY_MIN_LIMIT, alertViewModel.minLimit.value)
+            intent.putExtra(Consts.KEY_MAX_LIMIT, alertViewModel.maxLimit.value)
             setResult(RESULT_OK, intent)
+            finish()
         }
     }
 

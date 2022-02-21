@@ -4,12 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class AlertViewModel {
-    private val _minLimit = MutableLiveData<Float>()
-    private val _maxLimit = MutableLiveData<Float>()
 
 
-    val minLimit : LiveData<Float> = _minLimit
-    val maxLimit : LiveData<Float> = _maxLimit
+    val minLimit = MutableLiveData<Float>()
+    val maxLimit = MutableLiveData<Float>()
 
-
+    fun onValueChanged(values: List<Float>) {
+        if(values.isEmpty()) {
+            minLimit.value = values[0]
+            maxLimit.value = values[1]
+        }
+    }
 }

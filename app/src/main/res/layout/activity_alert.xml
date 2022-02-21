@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.nthreads.cryptotracker.utils.ConverterKt" />
+
         <variable
             name="viewmodel"
             type="com.nthreads.cryptotracker.domain.binders.AlertViewModel" />
@@ -42,20 +44,39 @@
             android:layout_margin="@dimen/offset_20">
 
             <TextView
-                android:id="@+id/tvMinARLimit"
+                android:id="@+id/tvMin"
                 style="@style/SubHeading"
                 android:layout_alignParentStart="true"
                 android:layout_marginHorizontal="@dimen/offset_20"
-                android:text='@{@string/lbl_min_limit(viewmodel.minLimit)}'
-                tools:text="Min\n120.32" />
+                android:text="@string/lbl_min" />
 
             <TextView
-                android:id="@+id/tvMaxARLimit"
+                android:id="@+id/tvMinARLimit"
+                style="@style/SubHeadingBold"
+                android:layout_below="@id/tvMin"
+                android:layout_alignParentStart="true"
+                android:layout_marginHorizontal="@dimen/offset_20"
+                android:layout_marginTop="@dimen/offset_5"
+                android:text='@{"$" + ConverterKt.getRateFormatted(viewmodel.minLimit)}'
+                tools:text="120.32" />
+
+            <TextView
+                android:id="@+id/tvMax"
                 style="@style/SubHeading"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="@dimen/offset_20"
-                android:text='@{@string/lbl_min_limit(viewmodel.maxLimit)}'
-                tools:text="Max\n120.32" />
+                android:lineSpacingMultiplier="1.5"
+                android:text="@string/lbl_max" />
+
+            <TextView
+                android:id="@+id/tvMaxARLimit"
+                style="@style/SubHeadingBold"
+                android:layout_below="@id/tvMax"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="@dimen/offset_20"
+                android:layout_marginTop="@dimen/offset_5"
+                android:text='@{"$" + ConverterKt.getRateFormatted(viewmodel.maxLimit)}'
+                tools:text="120.32" />
         </RelativeLayout>
 
         <com.google.android.material.slider.RangeSlider
@@ -66,6 +87,9 @@
             android:stepSize="10.0"
             android:valueFrom="0.0"
             android:valueTo="100000.0"
+            app:onValueChangeListener="@{(value)-> viewmodel.onValueChanged(value)}"
+            app:textViewLabel1="@{tvMinARLimit}"
+            app:textViewLabel2="@{tvMaxARLimit}"
             app:values="@array/initial_slider_values" />
 
         <com.google.android.material.button.MaterialButton

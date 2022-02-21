@@ -118,6 +118,32 @@ class PreferenceUtility {
 
         fun setPreference(
             base: Context, prefName: String,
+            key: String, value: Float
+        ) {
+
+            val userPref = base.getSharedPreferences(
+                prefName,
+                Context.MODE_PRIVATE
+            )
+            val editor = userPref.edit()
+            editor.putFloat(key, value)
+            editor.apply()
+        }
+
+        fun getFloatPreference(
+            base: Context, prefName: String,
+            key: String
+        ): Float {
+
+            val usePref = base.getSharedPreferences(
+                prefName,
+                Context.MODE_PRIVATE
+            )
+            return usePref.getFloat(key, 0f)
+        }
+
+        fun setPreference(
+            base: Context, prefName: String,
             key: String, value: Int
         ) {
 

@@ -19,8 +19,13 @@
 
     <string name="lbl_acceptable_limits">Acceptable Rate Limits</string>
 
-    <string name="lbl_min_limit">Min.\n%.2f</string>
-    <string name="lbl_max_limit">Max.\n%.2f</string>
+    <!--Params : Symbol and Value-->
+    <string name="lbl_min">Min.</string>
+    <string name="lbl_max">Max.</string>
+
+    <string name="lbl_min_limit">Min.\n%s %s</string>
+    <string name="lbl_max_limit">Max.\n%s %s</string>
+
     <string name="lbl_create_alert">Create Alert</string>
 
 </resources>
