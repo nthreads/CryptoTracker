@@ -10,7 +10,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.nthreads.cryptotracker.R
 
 object MyNotificationManager {
-    private const val NOTIFICATION_CHANNEL_ID =  "CryptoTracker.channel"
+    private const val NOTIFICATION_CHANNEL_ID = "CryptoTracker.channel"
 
     /**
      * Sets up the notification channels for API 26+, since android Oreo notification channel is needed.
@@ -48,13 +48,15 @@ object MyNotificationManager {
     }
 
     fun sendNotification(message: String, activity: Context) {
-        val notificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         createNotificationChannel(activity)
 
         val notification = NotificationCompat.Builder(activity, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_logo)
-            .setContentTitle(message)
+            .setContentTitle("Alert")
             .setAutoCancel(true)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .build()
 
         val id = 99 //getUniqueId()
