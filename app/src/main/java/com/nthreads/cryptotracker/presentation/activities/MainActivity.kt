@@ -1,7 +1,10 @@
 package com.nthreads.cryptotracker.presentation.activities
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResult
@@ -9,27 +12,24 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.nthreads.cryptotracker.R
 import com.nthreads.cryptotracker.app.Consts
 import com.nthreads.cryptotracker.databinding.ActivityMainBinding
 import com.nthreads.cryptotracker.domain.binders.MainViewModel
+import com.nthreads.cryptotracker.domain.models.Currency
 import com.nthreads.cryptotracker.domain.models.CurrencyRate
 import com.nthreads.cryptotracker.domain.models.Resource.Status.*
-import com.nthreads.cryptotracker.domain.services.MyNotificationManager
+import com.nthreads.cryptotracker.domain.workers.PriceAlertWorker
 import com.nthreads.cryptotracker.presentation.viewmodels.CryptoExchangeViewModel
 import com.nthreads.cryptotracker.utils.PreferenceUtility
-
-
-/*class MainActivity : AppBaseActivity<CryptoExchangeViewModel, ActivityMainBinding>(
-    viewModelClass = CryptoExchangeViewModel::class.java,
-    layoutResId = R.layout.activity_main
-) {*/
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by lazy { ViewModelProvider(this).get(CryptoExchangeViewModel::class.java) }
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var lbManager: LocalBroadcastManager
     private val mainViewMode: MainViewModel = MainViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
 
+        lbManager = LocalBroadcastManager.getInstance(this)
 
         getSavedAlerts()
         setObserver()
@@ -53,8 +54,35 @@ class MainActivity : AppCompatActivity() {
             activityForResult.launch(Intent(this, AlertActivity::class.java))
         }
 
-
         binding.viewmodel = mainViewMode
+
+        PriceAlertWorker.cancelOldWorkersIfAny(applicationContext)
+        PriceAlertWorker.startOneTimeWorkRequestAndScheduleAnother(applicationContext)
+    }
+
+    private val priceAlertBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+
+            binding.isLoading = true
+            val currPrice = intent.getParcelableExtra<CurrencyRate>(Consts.KEY_CURRENT_PRICE) as CurrencyRate
+            mainViewMode.currency = currPrice
+            binding.viewmodel = mainViewMode
+            binding.isLoading = false
+            Log.d("receiver", "Got currPrice: ${currPrice.rateFloat}")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lbManager.registerReceiver(
+            priceAlertBroadcastReceiver,
+            IntentFilter(Consts.PRICE_ALERT_EVENT)
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        lbManager.unregisterReceiver(priceAlertBroadcastReceiver)
     }
 
     private val activityForResult =
@@ -82,6 +110,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
     private fun getSavedAlerts() {
         val min = PreferenceUtility.getFloatPreference(this, Consts.APP_PREFS, Consts.KEY_MIN_LIMIT)
         val max = PreferenceUtility.getFloatPreference(this, Consts.APP_PREFS, Consts.KEY_MAX_LIMIT)
@@ -94,20 +123,6 @@ class MainActivity : AppCompatActivity() {
         mainViewMode.maxLimit = max
 
         binding.viewmodel = mainViewMode
-
-        notifyRateIfNeeded(mainViewMode.currency.rateFloat)
-    }
-
-    private fun notifyRateIfNeeded(currRate: Float) {
-        val message: String = if (currRate <= mainViewMode.minLimit) {
-            getString(R.string.msg_min_rate_threshold, mainViewMode.minLimit, currRate)
-        } else if (currRate >= mainViewMode.maxLimit) {
-            getString(R.string.msg_max_rate_threshold, mainViewMode.maxLimit, currRate)
-        } else {
-            return
-        }
-
-        MyNotificationManager.sendNotification(message, this)
     }
 
     private fun setObserver() {
@@ -116,16 +131,23 @@ class MainActivity : AppCompatActivity() {
                 binding.swipeToRefresh.isRefreshing = false
 
                 when (it.status) {
-                    LOADING -> {}
+                    LOADING -> {
+                        binding.isLoading = true
+                    }
                     SUCCESS -> {
+                        binding.isLoading = false
                         val usd = it.data?.bpi?.usd ?: CurrencyRate()
                         mainViewMode.currency = usd
                         binding.viewmodel = mainViewMode
-                        notifyRateIfNeeded(usd.rateFloat)
-                        Log.d("TAG", "onCreate: ${it.data?.bpi?.usd}")
+
+                        Log.d("TAG", "Success: ${it.data?.bpi?.usd}")
                     }
-                    ERROR -> {}
-                    EMPTY -> {}
+                    ERROR -> {
+                        binding.isLoading = false
+                    }
+                    EMPTY -> {
+                        binding.isLoading = false
+                    }
                 }
 
             }

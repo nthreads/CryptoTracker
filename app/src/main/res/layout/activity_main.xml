@@ -8,9 +8,15 @@
 
         <import type="com.nthreads.cryptotracker.utils.ConverterKt" />
 
+        <import type="android.view.View" />
+
         <variable
             name="viewmodel"
             type="com.nthreads.cryptotracker.domain.binders.MainViewModel" />
+
+        <variable
+            name="isLoading"
+            type="java.lang.Boolean" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -110,6 +116,14 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:text="US Dollar" />
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{isLoading? View.VISIBLE : View.GONE, default=gone}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -154,6 +168,13 @@
                         android:lineSpacingMultiplier="1.5"
                         android:text='@{@string/lbl_min_limit(viewmodel.currency.getSymbolHtml, ConverterKt.getRateFormatted(viewmodel.minLimit))}'
                         tools:text="Min\n12230.32" />
+
+                    <ProgressBar
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end|top"
+                        android:visibility="@{isLoading? View.VISIBLE : View.GONE, default=gone}"
+                        tools:visibility="visible" />
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -166,7 +187,6 @@
                     app:layout_constraintStart_toEndOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="parent">
 
-
                     <TextView
                         android:id="@+id/tvMaxARLimit"
                         style="@style/SubHeadingBold"
@@ -174,6 +194,13 @@
                         android:lineSpacingMultiplier="1.5"
                         android:text="@{@string/lbl_max_limit(viewmodel.currency.getSymbolHtml, ConverterKt.getRateFormatted(viewmodel.maxLimit))}"
                         tools:text="Max\n13327.32" />
+
+                    <ProgressBar
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end|top"
+                        android:visibility="@{isLoading? View.VISIBLE : View.GONE, default=gone}"
+                        tools:visibility="visible" />
                 </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

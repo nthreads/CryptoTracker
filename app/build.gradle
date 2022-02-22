@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 android {
     compileSdkVersion versions.compileSdk
@@ -40,6 +41,8 @@ dependencies {
     implementation deps.androidx.materialDesign
     implementation deps.androidx.swipeToRefresh
     implementation deps.androidx.constraintLayout
+
+    implementation deps.androidx.workManager
 
     implementation deps.androidx.splashScreen
 

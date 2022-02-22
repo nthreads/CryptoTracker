@@ -54,7 +54,7 @@ object MyNotificationManager {
 
         val notification = NotificationCompat.Builder(activity, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_logo)
-            .setContentTitle("Alert")
+            .setContentTitle("Price Alert")
             .setAutoCancel(true)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .build()
