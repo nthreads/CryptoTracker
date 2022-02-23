@@ -7,8 +7,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.*
 import com.nthreads.cryptotracker.app.Consts
 import com.nthreads.cryptotracker.data.remote.repos.CryptoExchangeRepository
+import com.nthreads.cryptotracker.domain.models.CurrencyRate
 import com.nthreads.cryptotracker.domain.usecases.NotifyAlertUseCase
+import com.nthreads.cryptotracker.utils.PreferenceUtility
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 
@@ -37,9 +41,18 @@ class PriceAlertWorker(private val appContext : Context, workerParams : WorkerPa
             LocalBroadcastManager.getInstance(appContext).sendBroadcast(intent)
 
             NotifyAlertUseCase.notifyIfNeeded(appContext, rate.rateFloat)
+
+            savePrefs(rate)
         }, {
             throw it
         }))
+    }
+
+    private fun savePrefs(rate: CurrencyRate) {
+        PreferenceUtility.setPreference(appContext, Consts.APP_PREFS, Consts.PREF_LAST_PRICE, rate.rateFloat)
+        PreferenceUtility.setPreference(appContext, Consts.APP_PREFS, Consts.PREF_PRICE_SYMBOL, rate.symbol)
+        PreferenceUtility.setPreference(appContext, Consts.APP_PREFS, Consts.PREF_PRICE_CODE, rate.code)
+        PreferenceUtility.setPreference(appContext, Consts.APP_PREFS, Consts.PREF_PRICE_DESC, rate.description)
     }
 
     companion object {

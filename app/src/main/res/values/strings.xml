@@ -8,7 +8,7 @@
     <string name="toast_err_forbidden_req">Forbidden request error</string>
     <string name="toast_err_internal_server">Internal server error, please retry later.</string>
     <string name="toast_err_session">Your session has been expired. Please login again.</string>
-    <string name="toast_err_went_wrong">Something went wrong. Please try again.</string>
+    <string name="toast_err_went_wrong">Something went wrong. Pull down to refresh.</string>
 
     <string name="toast_err_time_out">Connection Timeout, Please Try Again</string>
     <string name="toast_err_network">Network Error, Please Check Your Network Connection</string>

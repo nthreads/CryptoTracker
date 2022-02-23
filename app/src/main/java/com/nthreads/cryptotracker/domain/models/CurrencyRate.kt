@@ -1,13 +1,11 @@
 package com.nthreads.cryptotracker.domain.models
 
-import android.os.Build
 import android.os.Parcelable
-import android.text.Html
 import android.text.Spanned
-import androidx.versionedparcelable.ParcelField
+import androidx.core.text.HtmlCompat
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import java.text.DecimalFormat
+
 @Parcelize
 class CurrencyRate(
     val code: String = "",
@@ -19,10 +17,6 @@ class CurrencyRate(
 ) : Parcelable {
 
     fun getSymbolHtml(): Spanned {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(symbol, Html.FROM_HTML_MODE_COMPACT)
-        } else {
-            Html.fromHtml(symbol)
-        }
+        return HtmlCompat.fromHtml(symbol, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 }

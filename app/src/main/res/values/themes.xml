@@ -17,7 +17,7 @@
 
     <style name="App.SplashTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/purple_500</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_splash</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="postSplashScreenTheme">@style/Theme.CryptoTracker</item>
     </style>
@@ -46,6 +46,11 @@
 
     <style name="SubHeadingBold" parent="SubHeading">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Content" parent="TextViewStyle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="SliderTooltip" parent="Widget.MaterialComponents.Tooltip">

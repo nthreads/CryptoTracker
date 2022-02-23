@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -17,7 +18,6 @@ import com.nthreads.cryptotracker.R
 import com.nthreads.cryptotracker.app.Consts
 import com.nthreads.cryptotracker.databinding.ActivityMainBinding
 import com.nthreads.cryptotracker.domain.binders.MainViewModel
-import com.nthreads.cryptotracker.domain.models.Currency
 import com.nthreads.cryptotracker.domain.models.CurrencyRate
 import com.nthreads.cryptotracker.domain.models.Resource.Status.*
 import com.nthreads.cryptotracker.domain.workers.PriceAlertWorker
@@ -31,15 +31,19 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var lbManager: LocalBroadcastManager
     private val mainViewMode: MainViewModel = MainViewModel()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        installSplashScreen()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
 
         lbManager = LocalBroadcastManager.getInstance(this)
 
-        getSavedAlerts()
+        getDataFromCache()
         setObserver()
 
         binding.swipeToRefresh.setOnRefreshListener {
@@ -68,6 +72,7 @@ class MainActivity : AppCompatActivity() {
             mainViewMode.currency = currPrice
             binding.viewmodel = mainViewMode
             binding.isLoading = false
+            binding.isError = false
             Log.d("receiver", "Got currPrice: ${currPrice.rateFloat}")
         }
     }
@@ -111,9 +116,16 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-    private fun getSavedAlerts() {
+    private fun getDataFromCache() {
         val min = PreferenceUtility.getFloatPreference(this, Consts.APP_PREFS, Consts.KEY_MIN_LIMIT)
         val max = PreferenceUtility.getFloatPreference(this, Consts.APP_PREFS, Consts.KEY_MAX_LIMIT)
+
+        val rate = PreferenceUtility.getFloatPreference(this, Consts.APP_PREFS, Consts.PREF_LAST_PRICE)
+        val code = PreferenceUtility.getPreference(this, Consts.APP_PREFS, Consts.PREF_PRICE_CODE)
+        val symbol = PreferenceUtility.getPreference(this, Consts.APP_PREFS, Consts.PREF_PRICE_SYMBOL)
+        val desc = PreferenceUtility.getPreference(this, Consts.APP_PREFS, Consts.PREF_PRICE_DESC)
+
+        mainViewMode.currency = CurrencyRate(code = code, symbol = symbol, rateFloat = rate, description = desc)
 
         updateObserverModel(min, max)
     }
@@ -133,9 +145,12 @@ class MainActivity : AppCompatActivity() {
                 when (it.status) {
                     LOADING -> {
                         binding.isLoading = true
+                        binding.isError = false
                     }
                     SUCCESS -> {
                         binding.isLoading = false
+                        binding.isError = false
+
                         val usd = it.data?.bpi?.usd ?: CurrencyRate()
                         mainViewMode.currency = usd
                         binding.viewmodel = mainViewMode
@@ -144,9 +159,11 @@ class MainActivity : AppCompatActivity() {
                     }
                     ERROR -> {
                         binding.isLoading = false
+                        binding.isError = true
                     }
                     EMPTY -> {
                         binding.isLoading = false
+                        binding.isError = true
                     }
                 }
 
