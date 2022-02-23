@@ -17,20 +17,4 @@ class CryptoApplication : Application(), Configuration.Provider{
                 .build()
         }
     }
-
-    override fun onCreate() {
-        super.onCreate()
-
-        /*val configs = if (BuildConfig.DEBUG) {
-            Configuration.Builder()
-                .setMinimumLoggingLevel(android.util.Log.DEBUG)
-                .build()
-        } else {
-            Configuration.Builder()
-                .setMinimumLoggingLevel(android.util.Log.ERROR)
-                .build()
-        }
-
-        WorkManager.initialize(this, configs)*/
-    }
 }
