@@ -9,8 +9,8 @@ An app to alert Bitcoin Price Index for specified acceptable rate limits both mi
   
   <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/1.jpg" width="200">
   <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/2.jpg" width="200">
-      <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/3.jpg" width="200">
-    <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/4.jpg" width="200">
+  <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/3.jpg" width="200">
+  <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/4.jpg" width="200">
 </p>
 <br>
 <p align="center">
@@ -32,9 +32,9 @@ An app to alert Bitcoin Price Index for specified acceptable rate limits both mi
 4. presentation
 5. utils
 
-### Future Enhancments
+### Future Enhancements
 
 Future enhancement will contain 
 
-1. Room for Persistance storage
+1. Room for Persistence storage
 2. Hilt for Dependency Injection
