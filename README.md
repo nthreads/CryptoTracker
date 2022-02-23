@@ -7,10 +7,10 @@ An app to alert Bitcoin Price Index for specified acceptable rate limits both mi
 
 <p align="center">
   
-  <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/1.jpg" width="220">
-  <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/2.jpg" width="220">
-      <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/3.jpg" width="220">
-    <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/4.jpg" width="220">
+  <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/1.jpg" width="200">
+  <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/2.jpg" width="200">
+      <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/3.jpg" width="200">
+    <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/4.jpg" width="200">
 </p>
 <br>
 <p align="center">
