@@ -3,7 +3,7 @@
 An app to alert Bitcoin Price Index for specified acceptable rate limits both minimum and maximum.
 ---
 
-**This test project implements Clean architecute using MVVM, Retrofit, RxJava and Jetpack Architecture Components like LiveData, ViewMode, Databinding**
+**This test project implements Clean architecute using MVVM, Retrofit, RxJava and Jetpack Architecture Components like LiveData, ViewModel, WorkManager and Databinding**
 
 <p align="center">
   
@@ -22,6 +22,7 @@ An app to alert Bitcoin Price Index for specified acceptable rate limits both mi
 1. LiveData
 2. ViewModel
 3. Databinding
+4. WorkManager
 
 ### Main Packages of this app are as follows:
 
