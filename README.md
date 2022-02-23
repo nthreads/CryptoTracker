@@ -1,0 +1,39 @@
+# Crypto Tracker
+
+An app to alert Bitcoin Price Index for specified acceptable rate limits both minimum and maximum.
+---
+
+**This test project implements Clean architecute using MVVM, Retrofit, RxJava and Jetpack Architecture Components like LiveData, ViewMode, Databinding**
+
+<p align="center">
+  
+  <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/1.jpg" width="220">
+  <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/2.jpg" width="220">
+      <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/3.jpg" width="220">
+    <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/4.jpg" width="220">
+</p>
+<br>
+<p align="center">
+    <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/recording.gif" width="250">
+</p>
+<br>
+
+### Jetpack Architecture Components
+1. LiveData
+2. ViewModel
+3. Databinding
+
+### Main Packages of this app are as follows:
+
+1. app
+2. data
+3. domain
+4. presentation
+5. utils
+
+### Future Enhancments
+
+Future enhancement will contain 
+
+1. Room for Persistance storage
+2. Hilt for Dependency Injection
