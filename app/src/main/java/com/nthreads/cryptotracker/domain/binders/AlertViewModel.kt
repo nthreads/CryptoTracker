@@ -1,6 +1,5 @@
 package com.nthreads.cryptotracker.domain.binders
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class AlertViewModel {
@@ -10,7 +9,7 @@ class AlertViewModel {
     val maxLimit = MutableLiveData<Float>()
 
     fun onValueChanged(values: List<Float>) {
-        if(values.isEmpty()) {
+        if (values.isEmpty()) {
             minLimit.value = values[0]
             maxLimit.value = values[1]
         }

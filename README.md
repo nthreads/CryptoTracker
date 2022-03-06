@@ -3,7 +3,8 @@
 An app to alert Bitcoin Price Index for specified acceptable rate limits both minimum and maximum.
 ---
 
-**This test project implements Clean architecute using MVVM, Retrofit, RxJava and Jetpack Architecture Components like LiveData, ViewModel, WorkManager and Databinding**
+**This test project implements Clean Architecture design philosophy using MVVM, Retrofit, RxJava and Jetpack Architecture Components 
+like LiveData, ViewModel, WorkManager and Databinding**
 
 <p align="center">
   
@@ -23,6 +24,10 @@ An app to alert Bitcoin Price Index for specified acceptable rate limits both mi
 2. ViewModel
 3. Databinding
 4. WorkManager
+
+<p align="center">
+    <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/workmanager_main.svg" width="250">
+</p>
 
 ### Main Packages of this app are as follows:
 

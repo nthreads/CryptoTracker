@@ -11,7 +11,7 @@ subprojects {
                     targetSdkVersion versions.targetSdk
 
                     // Enabling multidex support.
-                    multiDexEnabled true
+                    // multiDexEnabled true
 
                     vectorDrawables.useSupportLibrary = true
                 }
