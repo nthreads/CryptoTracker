@@ -25,8 +25,8 @@ like LiveData, ViewModel, WorkManager and Databinding**
 3. Databinding
 4. WorkManager
 
-<p align="center">
-    <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/workmanager_main.svg" width="250">
+<p align="left">
+    <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/workmanager_main.svg">
 </p>
 
 ### Main Packages of this app are as follows:
