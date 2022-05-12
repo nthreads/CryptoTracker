@@ -19,6 +19,11 @@ like LiveData, ViewModel, WorkManager and Databinding**
 </p>
 <br>
 
+### [***MVVM (Model View View-Model)***](https://developer.android.com/jetpack/docs/guide#recommended-app-arch) architecture.
+<p align="left">
+    <img src="https://github.com/nthreads/CryptoTracker/blob/master/screenshots/architecture.png">
+</p>
+
 ### Jetpack Architecture Components
 1. LiveData
 2. ViewModel
